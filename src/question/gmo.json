@@ -1,0 +1,22 @@
+{
+  "message": {
+    "type": "template",
+    "altText": "this is a confirm template",
+    "template": {
+      "type": "confirm",
+      "actions": [
+        {
+          "type": "message",
+          "label": "1.家で受け取り？",
+          "text": "yes"
+        },
+        {
+          "type": "message",
+          "label": "2.店頭で受け取り？",
+          "text": "no"
+        }
+      ],
+      "text": "処方箋送信ありがとうございました。"
+    }
+  }
+}
