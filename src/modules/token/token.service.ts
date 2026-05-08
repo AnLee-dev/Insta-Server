@@ -134,3 +134,17 @@ export const generateVerifyEmailToken = async (user: IUserDoc): Promise<string> 
   await saveToken(verifyEmailToken, user.id, expires, tokenTypes.VERIFY_EMAIL);
   return verifyEmailToken;
 };
+
+/**
+ * Find token by query
+ */
+export const findToken = async (filter: mongoose.FilterQuery<ITokenDoc>): Promise<ITokenDoc | null> => {
+  return Token.findOne(filter);
+};
+
+/**
+ * Delete tokens by userId và type
+ */
+export const deleteTokensByUserAndType = async (userId: mongoose.Types.ObjectId, type: string): Promise<void> => {
+  await Token.deleteMany({ user: userId, type });
+};

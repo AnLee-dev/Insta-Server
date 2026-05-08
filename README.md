@@ -225,7 +225,7 @@ SMTP_PASSWORD=email-server-password
 EMAIL_FROM=support@yourapp.com
 
 # URL of client application
-CLIENT_URL=http://localhost:5000
+CLIENT_URL=http://localhost:4000
 ```
 
 ## Project Structure

@@ -14,6 +14,7 @@ export interface IUser {
 }
 
 export interface IUserDoc extends IUser, Document {
+  id: mongoose.Types.ObjectId;
   isPasswordMatch(password: string): Promise<boolean>;
 }
 
@@ -25,9 +26,9 @@ export interface IUserModel extends Model<IUserDoc> {
 
 export type UpdateUserBody = Partial<IUser>;
 
-export type NewRegisteredUser = Omit<IUser, 'role' | 'isEmailVerified'>;
+export type IRegisteredUser = Omit<IUser, 'role' | 'isEmailVerified'>;
 
-export type NewCreatedUser = Omit<IUser, 'isEmailVerified'>;
+export type ICreatedUser = Omit<IUser, 'isEmailVerified'>;
 
 export interface IUserWithTokens {
   user: IUserDoc;

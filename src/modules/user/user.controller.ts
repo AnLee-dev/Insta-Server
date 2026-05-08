@@ -20,25 +20,19 @@ export const getUsers = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const getUser = catchAsync(async (req: Request, res: Response) => {
-  if (typeof req.params['userId'] === 'string') {
-    const user = await userService.getUserById(new mongoose.Types.ObjectId(req.params['userId']));
-    if (!user) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-    }
-    res.send(user);
+  const user = await userService.getUserById(new mongoose.Types.ObjectId(req.params['userId']));
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
+  res.send(user);
 });
 
 export const updateUser = catchAsync(async (req: Request, res: Response) => {
-  if (typeof req.params['userId'] === 'string') {
-    const user = await userService.updateUserById(new mongoose.Types.ObjectId(req.params['userId']), req.body);
-    res.send(user);
-  }
+  const user = await userService.updateUserById(new mongoose.Types.ObjectId(req.params['userId']), req.body);
+  res.send(user);
 });
 
 export const deleteUser = catchAsync(async (req: Request, res: Response) => {
-  if (typeof req.params['userId'] === 'string') {
-    await userService.deleteUserById(new mongoose.Types.ObjectId(req.params['userId']));
-    res.status(httpStatus.NO_CONTENT).send();
-  }
+  await userService.deleteUserById(new mongoose.Types.ObjectId(req.params['userId']));
+  res.status(httpStatus.NO_CONTENT).send();
 });

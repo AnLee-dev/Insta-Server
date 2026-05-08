@@ -77,7 +77,7 @@ userSchema.plugin(paginate);
  * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
  * @returns {Promise<boolean>}
  */
-userSchema.static('isEmailTaken', async function (email: string, excludeUserId: mongoose.ObjectId): Promise<boolean> {
+userSchema.static('isEmailTaken', async function (email: string, excludeUserId?: mongoose.ObjectId): Promise<boolean> {
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
   return !!user;
 });
