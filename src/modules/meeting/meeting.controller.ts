@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 import catchAsync from '../utils/catchAsync';
 import pick from '../utils/pick';
 import { IOptions } from '../paginate/paginate';
-import * as mettingService from './metting.service';
+import * as mettingService from './meeting.service';
 import { ApiError } from '../errors';
 
-export const getMeetings = catchAsync(async (req: Request, res: Response) => {
+const getMeetings = catchAsync(async (req: Request, res: Response) => {
   const filter = pick(req.query, ['']);
   const options: IOptions = pick(req.query, ['']);
   try {
@@ -16,3 +16,5 @@ export const getMeetings = catchAsync(async (req: Request, res: Response) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Meetings not found');
   }
 });
+
+export { getMeetings };

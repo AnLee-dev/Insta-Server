@@ -5,7 +5,7 @@ import paginate from '../paginate/paginate';
 
 const postSchema = new mongoose.Schema<IPostDoc, IPostModel>(
   {
-    userId: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     media: [
       {
         mediaUrl: {

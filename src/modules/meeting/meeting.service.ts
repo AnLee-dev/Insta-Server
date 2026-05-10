@@ -1,11 +1,11 @@
 import httpStatus from 'http-status';
 import { ApiError } from '../errors';
-import { TMetting, TMettingDoc, UpdateMettinfBody } from './metting.interfaces';
-import Metting from './metting.model';
+import { TMetting, TMettingDoc, UpdateMettinfBody } from './meeting.interfaces';
+import Metting from './meeting.model';
 import { IOptions, QueryResult } from '../paginate/paginate';
 
 /**
- * Create metting
+ * Create meeting
  * @param {TMetting} Mettingbody
  * @returns {Promise<TMettingDoc>}
  */
@@ -20,13 +20,13 @@ export const createMetting = async (userBody: TMetting): Promise<TMettingDoc> =>
  * @returns {Promise<IUserDoc | null>}
  */
 export const updateMettingById = async (userLine: string, updateBody: UpdateMettinfBody): Promise<TMettingDoc | null> => {
-  const metting = await Metting.findOne({ userLine });
-  if (!metting) {
+  const meeting = await Metting.findOne({ userLine });
+  if (!meeting) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Metting not found');
   }
-  Object.assign(metting, updateBody);
-  await metting.save();
-  return metting;
+  Object.assign(meeting, updateBody);
+  await meeting.save();
+  return meeting;
 };
 
 /**

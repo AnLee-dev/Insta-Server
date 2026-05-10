@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
-import { NewCreatedUser } from './user.interfaces';
+import { ICreatedUser } from './user.interfaces';
 import User from './user.model';
 
 describe('User model', () => {
   describe('User validation', () => {
-    let newUser: NewCreatedUser;
+    let newUser: ICreatedUser;
     beforeEach(() => {
       newUser = {
         userName: faker.name.findName(),

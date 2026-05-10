@@ -1,13 +1,11 @@
 import express, { Router } from 'express';
 import { validate } from '../../modules/validate';
 import { auth } from '../../modules/auth';
-import { meetingController, mettingValidation } from '../../modules/metting';
+import { meetingController, meetingValidation } from '../../modules/meeting';
 
 const router: Router = express.Router();
 
-router
-  .route('/')
-  .get(auth('getMeetings'), validate(mettingValidation.getSessions), meetingController.getMeetings);
+router.route('/').get(auth('getMeetings'), validate(meetingValidation.getSessions), meetingController.getMeetings);
 
 export default router;
 
@@ -82,4 +80,3 @@ export default router;
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  */
-

@@ -7,14 +7,14 @@ const router: Router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), postController.createPost)
-  .get(auth('getUsers'), postController.getPosts);
+  .post(auth('managePosts'), postController.createPost)
+  .get(auth('getPosts'), postController.getPosts);
 
 router
   .route('/:postId')
-  .get(auth('getUsers'), postController.getPostById)
-  .patch(auth('manageUsers'), postController.updatePost)
-  .delete(auth('manageUsers'), postController.deletePost);
+  .get(auth('getPosts'), postController.getPostById)
+  .patch(auth('managePosts'), postController.updatePost)
+  .delete(auth('managePosts'), postController.deletePost);
 
 export default router;
 
@@ -131,7 +131,7 @@ export default router;
 
 /**
  * @swagger
- * /posts/{id}:
+ * /posts/{postId}:
  *   get:
  *     summary: get post by id
  *     description: Only admins can see post.
@@ -140,7 +140,7 @@ export default router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: postId
  *         required: true
  *         schema:
  *           type: string

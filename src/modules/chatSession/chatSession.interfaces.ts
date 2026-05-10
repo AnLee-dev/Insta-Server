@@ -12,8 +12,8 @@ export interface TSession {
   userLine: string;
   userName: string;
   questionnaires?: string[];
-  mettingDate?: string;
-  metting?: Types.ObjectId;
+  meetingDate?: string;
+  meeting?: Types.ObjectId;
 }
 
 export interface TSessionDoc extends TSession, Document {}

@@ -8,8 +8,8 @@ import { TSession } from '../chatSession/chatSession.interfaces';
 import { createSession, findSessionLastest } from '../chatSession/chatSession.service';
 import { step0, step1, step2, step3, step4, step5, step6 } from '../../question/question';
 import zoomController from '../zoom/index.controller';
-import { TMetting } from '../metting/metting.interfaces';
-import { createMetting } from '../metting/metting.service';
+import { TMetting } from '../meeting/meeting.interfaces';
+import { createMetting } from '../meeting/meeting.service';
 
 type DateTimePostback = {
   date?: string;
@@ -101,24 +101,24 @@ const messageController = () => {
             return lineSdk.replyMessage(event.replyToken, step4);
           }
           // Step6
-          if (sessionData?.currentStep === 6 && sessionData.mettingDate) {
+          if (sessionData?.currentStep === 6 && sessionData.meetingDate) {
             try {
               const zoom = await axios(zoomController());
-              const metting: TMetting = {
+              const meeting: TMetting = {
                 zoomId: zoom.data.uuid,
                 userLine: sessionData.userLine,
                 userName: sessionData.userName,
-                timeStart: new Date(sessionData.mettingDate),
+                timeStart: new Date(sessionData.meetingDate),
                 linkHost: zoom.data.start_url,
                 linkJoin: zoom.data.join_url,
               };
-              const mettingData = await createMetting(metting);
-              if (metting) sessionData.metting = mettingData.id;
+              const meetingData = await createMetting(meeting);
+              if (meeting) sessionData.meeting = meetingData.id;
               sessionData.currentStep += 1;
               sessionData.save();
               return await lineSdk.replyMessage(
                 event.replyToken,
-                step6(zoom.data.join_url, String(sessionData.mettingDate))
+                step6(zoom.data.join_url, String(sessionData.meetingDate))
               );
             } catch (error) {
               // eslint-disable-next-line no-console
@@ -132,7 +132,7 @@ const messageController = () => {
         if (sessionData?.currentStep === 5) {
           const { datetime } = event.postback?.params as DateTimePostback;
           sessionData.currentStep += 1;
-          sessionData.mettingDate = moment(datetime).format('YYYY-MM-DD HH:mm:ss');
+          sessionData.meetingDate = moment(datetime).format('YYYY-MM-DD HH:mm:ss');
           sessionData.save();
           return lineSdk.replyMessage(event.replyToken, step5(sessionData.userName, datetime));
         }

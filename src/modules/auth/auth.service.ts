@@ -1,12 +1,11 @@
 import httpStatus from 'http-status';
 import bcrypt from 'bcryptjs';
-import tokenService from '@/modules/token/token.service';
-import { userService } from '../user/user.service';
+import * as tokenService from '@/modules/token/token.service';
+import * as userService from '../user/user.service';
 import { ApiError } from '../errors';
 import tokenTypes from '../token/token.types';
-import { TokenDocument } from '../token/token.model';
-import { UserDocument } from '../user/user.model';
 import { IUserDoc } from '../user/user.interfaces';
+import mongoose from 'mongoose';
 
 /**
  * Logout — xoá refresh token khỏi DB
@@ -32,7 +31,7 @@ const logout = async (refreshToken: string): Promise<void> => {
 const refreshAuth = async (refreshToken: string) => {
   const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
 
-  const user = await userService.getUserById(refreshTokenDoc.user.toString());
+  const user = await userService.getUserById(new mongoose.Types.ObjectId(refreshTokenDoc.user.toString()));
 
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'User không tồn tại');
@@ -49,13 +48,13 @@ const refreshAuth = async (refreshToken: string) => {
 const resetPassword = async (resetPasswordToken: string, newPassword: string): Promise<void> => {
   const resetTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
 
-  const user = await userService.getUserById(resetTokenDoc.user.toString());
+  const user = await userService.getUserById(new mongoose.Types.ObjectId(resetTokenDoc.user.toString()));
 
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Reset password thất bại');
   }
 
-  await userService.updateUserById(user.id, {
+  await userService.updateUserById(new mongoose.Types.ObjectId(user.id), {
     password: await bcrypt.hash(newPassword, 10),
   });
 
@@ -68,7 +67,7 @@ const resetPassword = async (resetPasswordToken: string, newPassword: string): P
 const verifyEmail = async (verifyEmailToken: string): Promise<void> => {
   const verifyEmailTokenDoc = await tokenService.verifyToken(verifyEmailToken, tokenTypes.VERIFY_EMAIL);
 
-  const user = await userService.getUserById(verifyEmailTokenDoc.user.toString());
+  const user = await userService.getUserById(new mongoose.Types.ObjectId(verifyEmailTokenDoc.user.toString()));
 
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Xác thực email thất bại');
@@ -102,4 +101,4 @@ const authService = {
   verifyEmail,
 };
 
-export default authService;
+export { authService };

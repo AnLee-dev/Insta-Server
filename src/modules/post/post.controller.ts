@@ -24,7 +24,7 @@ export const getPostById = catchAsync(async (req: Request, res: Response) => {
 
 export const getPosts = catchAsync(async (req: Request, res: Response) => {
   const filter = pick(req.query, ['likeCount', 'hasLike']);
-  const options: IOptions = pick(req.query, ['User']);
+  const options: IOptions = pick(req.query, ['sortBy', 'limit', 'page', 'projectBy']);
   const result = await postService.queryPost(filter, options);
   res.send(result.results);
 });

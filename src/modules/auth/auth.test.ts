@@ -11,7 +11,7 @@ import app from '../../app.js';
 import setupTestDB from '../jest/setupTestDB';
 import User from '../user/user.model';
 import config from '../../config/config';
-import { NewRegisteredUser } from '../user/user.interfaces';
+import { IRegisteredUser } from '../user/user.interfaces';
 import * as tokenService from '../token/token.service';
 import tokenTypes from '../token/token.types';
 import Token from '../token/token.model';
@@ -42,7 +42,7 @@ const insertUsers = async (users: Record<string, any>[]) => {
 
 describe('Auth routes', () => {
   describe('POST /v1/auth/register', () => {
-    let newUser: NewRegisteredUser;
+    let newUser: IRegisteredUser;
     beforeEach(() => {
       newUser = {
         userName: faker.name.findName(),

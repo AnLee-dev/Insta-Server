@@ -25,10 +25,10 @@ const sessionSchema = new mongoose.Schema<TSessionDoc, TSessionDocModel>(
       type: Array,
       default: [],
     },
-    mettingDate: {
+    meetingDate: {
       type: String,
     },
-    metting: { type: Schema.Types.ObjectId, ref: 'Metting', required: false },
+    meeting: { type: Schema.Types.ObjectId, ref: 'Metting', required: false },
   },
   {
     timestamps: true,

@@ -5,13 +5,22 @@ import logger from './modules/logger/logger';
 import User from './modules/user/user.model';
 
 let server: any;
-mongoose.connect(config.mongoose.url).then(() => {
-  logger.info('Connected to MongoDB');
-  User.initFirstUser();
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
-  });
-});
+
+const startServer = async () => {
+  try {
+    mongoose.connect(config.mongoose.url).then(() => {
+      logger.info('Connected to MongoDB');
+      User.initFirstUser();
+      server = app.listen(config.port, () => {
+        logger.info(`Listening to port ${config.port}`);
+      });
+    });
+  } catch (error) {
+    logger.error('Failed to connect to MongoDB: ', error);
+    process.exit(1);
+  }
+};
+startServer();
 
 const exitHandler = () => {
   if (server) {

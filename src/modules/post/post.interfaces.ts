@@ -2,7 +2,7 @@ import { Document, Model, Types } from 'mongoose';
 import { QueryResult } from '../paginate/paginate';
 
 export interface IPost {
-  userId: [Types.ObjectId];
+  userId: Types.ObjectId;
   media: [
     {
       mediaUrl: string;

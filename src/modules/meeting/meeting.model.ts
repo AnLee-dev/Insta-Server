@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import toJSON from '../toJSON/toJSON';
-import { TMettingDoc, TMettingDocModel } from './metting.interfaces';
+import { TMettingDoc, TMettingDocModel } from './meeting.interfaces';
 import paginate from '../paginate/paginate';
 
 const mettingSchema = new mongoose.Schema<TMettingDoc, TMettingDocModel>(

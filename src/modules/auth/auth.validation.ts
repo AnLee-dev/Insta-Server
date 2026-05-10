@@ -1,8 +1,8 @@
 import Joi from 'joi';
 import { password } from '../validate/custom.validation';
-import { NewRegisteredUser } from '../user/user.interfaces';
+import { IRegisteredUser } from '../user/user.interfaces';
 
-const registerBody: Record<keyof NewRegisteredUser, any> = {
+const registerBody: Record<keyof IRegisteredUser, any> = {
   email: Joi.string().required().email(),
   password: Joi.string().required().custom(password),
   userName: Joi.string().required(),

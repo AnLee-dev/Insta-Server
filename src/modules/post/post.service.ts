@@ -30,9 +30,24 @@ export const getPostById = async (postId: mongoose.Types.ObjectId): Promise<IPos
  * @returns {Promise<QueryResult>}
  */
 export const queryPost = async (filter: Record<string, any>, options: IOptions): Promise<QueryResult> => {
-  const newOptions = { ...options, populate: 'userId' };
-  const posts = await Post.paginate(filter, newOptions);
-  return posts;
+  const limit = options.limit && parseInt(options.limit.toString(), 10) > 0 ? parseInt(options.limit.toString(), 10) : 10;
+  const page = options.page && parseInt(options.page.toString(), 10) > 0 ? parseInt(options.page.toString(), 10) : 1;
+  const skip = (page - 1) * limit;
+
+  const [totalResults, results] = await Promise.all([
+    Post.countDocuments(filter),
+    Post.find(filter).populate('userId').sort('createdAt').skip(skip).limit(limit).lean(),
+  ]);
+
+  const totalPages = Math.ceil(totalResults / limit);
+
+  return {
+    results: results as any,
+    page,
+    limit,
+    totalPages,
+    totalResults,
+  };
 };
 
 /**

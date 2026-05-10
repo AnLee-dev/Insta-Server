@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import httpStatus from 'http-status';
-import authService from './auth.service';
-import { tokenService } from '../token/token.service';
-import { userService } from '../user/user.service';
-import { emailService } from '../email/email.service';
+import { authService } from './auth.service';
+import * as tokenService from '../token/token.service';
+import * as userService from '../user/user.service';
+import * as emailService from '../email/email.service';
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -67,7 +67,7 @@ const sendVerificationEmail = async (req: Request, res: Response, next: NextFunc
   try {
     // req.user được gắn vào bởi auth() middleware
     const verifyEmailToken = await tokenService.generateVerifyEmailToken(req.user);
-    await emailService.sendVerificationEmail(req.user.email, verifyEmailToken);
+    await emailService.sendVerificationEmail(req.user.email, verifyEmailToken, req.user.userName);
     res.status(httpStatus.NO_CONTENT).send();
   } catch (error) {
     next(error);
@@ -94,4 +94,4 @@ const authController = {
   verifyEmail,
 };
 
-export default authController;
+export { authController };
